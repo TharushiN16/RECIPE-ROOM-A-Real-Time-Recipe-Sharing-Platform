@@ -1,0 +1,44 @@
+﻿# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.cache/
+.temp/
+.tmp/
+*.log
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Coverage
+coverage/
+
+# Misc
+*.sqlite
+*.sqlite3
+*.db
+*.pid
+
+# Frontend tools
+.next/
+.out/
+.svelte-kit/
+.vercel/
+.netlify/
