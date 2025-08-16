@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Recipes - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+	    min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            opacity: 1;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filter Section */
+        .search-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .search-header h1 {
+            font-size: 2.5rem;
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #ff6b35;
+        }
+
+        .search-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #e55a2b;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        /* Categories Section */
+        .categories-section {
+            margin-bottom: 3rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-count {
+            opacity: 0.9;
+        }
+
+        /* Recipes Grid */
+        .recipes-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image {
+            height: 200px;
+            overflow: hidden; 
+	    background: linear-gradient(45deg, #ddd, #eee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b35;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .recipe-info {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .recipe-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .recipe-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ff6b35;
+            border: 2px solid #ff6b35;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:hover {
+            background: #e55a2b;
+        }
+
+        .btn-secondary:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+        /* Load More Section */
+        .load-more {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .load-more-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+	
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .search-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Filter Active State */
+        .filter-active {
+            border-color: #ff6b35 !important;
+            background: #fff5f2 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+	 <div class="logo">
+	       <a href="index.html" class="logo">
+                	<img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo" a href="index.html">                
+	       </a>
+		<h4>Recipe Room</h4>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html" class="active">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+          </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-header">
+                    <h1>Discover Amazing Recipes</h1>
+                    <p>Find the perfect recipe from our collection of thousands of dishes from around the world</p>
+                </div>
+                
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search recipes, ingredients, cuisines..." id="searchInput">
+                    <button class="search-btn" onclick="searchRecipes()">Search</button>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" onchange="applyFilters()">
+                            <option value="">All Categories</option>
+                            <option value="quick-meals">Quick Meals & Snacks</option>
+                            <option value="desserts">Desserts</option>
+                            <option value="drinks">Drinks & Beverages</option>
+                            <option value="sri-lankan">Sri Lankan Dishes</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="difficultyFilter">Difficulty</label>
+                        <select id="difficultyFilter" onchange="applyFilters()">
+                            <option value="">Any Difficulty</option>
+                            <option value="easy">Easy (★☆☆)</option>
+                            <option value="medium">Medium (★★☆)</option>
+                            <option value="hard">Hard (★★★)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="timeFilter">Cooking Time</label>
+                        <select id="timeFilter" onchange="applyFilters()">
+                            <option value="">Any Time</option>
+                            <option value="15">Under 15 mins</option>
+                            <option value="30">Under 30 mins</option>
+                            <option value="60">Under 1 hour</option>
+                            <option value="120">Under 2 hours</option>
+                            <option value="240">2+ hours</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="dietFilter">Dietary</label>
+                        <select id="dietFilter" onchange="applyFilters()">
+                            <option value="">All Diets</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten Free</option>
+                            <option value="keto">Keto</option>
+                            <option value="paleo">Paleo</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories Section -->
+            <section class="categories-section">
+                <h2 class="section-title">Browse by Category</h2>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="filterByCategory('quick-meals')">
+                        <div class="category-icon">
+			<img src="../assets/images/Quick Meals&Snacks.jpg" alt="Category-1" style="width: 100%; height: auto;">
+		      </div>
+                        <div class="category-title">Quick Meals & Snacks 🥪</div>
+                        <div class="category-count">245 recipes</div>
+                    </div>
+                    <div class="category-card" onclick="filterByCategory('desserts')">
+                        <div class="category-icon">
+			<img src="../assets/images/Desserts.jpg" alt="Category-2" style="width: 100%; height: auto;">
+		      </div>
+                        <div class="category-title">Desserts 🍰</div>
+                        <div class="category-count">189 recipes</div>
+                    </div>
+                    <div class="category-card" onclick="filterByCategory('drinks')">
+                        <div class="category-icon">
+			<img src="../assets/images/Drinks & Beverages.avif" alt="Category-3" style="width: 100%; height: auto;">
+		      </div>
+                        <div class="category-title">Drinks & Beverages 🥤</div>
+                        <div class="category-count">156 recipes</div>
+                    </div>
+                    <div class="category-card" onclick="filterByCategory('sri-lankan')">
+                        <div class="category-icon">
+			<img src="../assets/images/Sri Lankan Dishes.jpg" alt="Category-4" style="width: 100%; height: auto;">
+		      </div>
+                        <div class="category-title">Sri Lankan Dishes 🍛</div>
+                        <div class="category-count">98 recipes</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recipes Section -->
+            <section class="recipes-section">
+                <h2 class="section-title">All Recipes <span id="recipeCount">(1,247 recipes)</span></h2>
+                <div class="recipes-grid" id="recipesGrid">
+                    <!-- Quick Meals & Snacks -->
+                    <div class="recipe-card" data-category="quick-meals" data-difficulty="easy" data-time="15" data-diet="vegetarian">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+			    <img src="../assets/images/Avocado Toast Deluxe.jpg" alt="QM-Recipe-1" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Avocado Toast Deluxe</h3>
+                            <p class="recipe-description">Creamy avocado on artisan bread with cherry tomatoes, feta cheese, and a drizzle of balsamic glaze</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 10 mins</span>
+                                <span>🥄 Serves 2</span>
+                                <span>🌱 Vegetarian</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Avocado Toast Deluxe')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Avocado Toast Deluxe')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="quick-meals" data-difficulty="easy" data-time="20" data-diet="">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.6</span>
+                            <img src="../assets/images/Chicken Caesar Wrap.avif" alt="QM-Recipe-2" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Chicken Caesar Wrap</h3>
+                            <p class="recipe-description">Grilled chicken breast with crisp romaine, parmesan, and homemade caesar dressing in a flour tortilla</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 15 mins</span>
+                                <span>🥄 Serves 2</span>
+                                <span>🍗 Protein</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Chicken Caesar Wrap')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Chicken Caesar Wrap')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desserts -->
+                    <div class="recipe-card" data-category="desserts" data-difficulty="medium" data-time="45" data-diet="vegetarian">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★★☆ Medium</span>
+                            <span class="rating-badge">4.9</span>
+                            <img src="../assets/images/Chocolate Lava Cake.avif" alt="Dessert-Recipe-1" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Chocolate Lava Cake</h3>
+                            <p class="recipe-description">Decadent individual chocolate cakes with molten centers, served warm with vanilla ice cream</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 35 mins</span>
+                                <span>🥄 Serves 4</span>
+                                <span>🍫 Dessert</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Chocolate Lava Cake')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Chocolate Lava Cake')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="desserts" data-difficulty="easy" data-time="30" data-diet="vegan">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.7</span>
+                            <img src="../assets/images/Vegan Banana Bread.jpg" alt="Dessert-Recipe-2" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Vegan Banana Bread</h3>
+                            <p class="recipe-description">Moist and flavorful banana bread made without eggs or dairy, perfect for breakfast or afternoon tea</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 25 mins prep</span>
+                                <span>🥄 Serves 8</span>
+                                <span>🌱 Vegan</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Vegan Banana Bread')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Vegan Banana Bread')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Drinks -->
+                    <div class="recipe-card" data-category="drinks" data-difficulty="easy" data-time="5" data-diet="vegan">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.5</span>
+                            <img src="../assets/images/Tropical Smoothie Bowl.jpg" alt="Drink-Recipe-1" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Tropical Smoothie Bowl</h3>
+                            <p class="recipe-description">Refreshing blend of mango, pineapple, and coconut topped with fresh fruits and granola</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 5 mins</span>
+                                <span>🥄 Serves 1</span>
+                                <span>🥭 Tropical</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Tropical Smoothie Bowl')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Tropical Smoothie Bowl')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="drinks" data-difficulty="easy" data-time="10" data-diet="">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.4</span>
+                            <img src="../assets/images/Iced Coffee Latte.jpg" alt="Drink-Recipe-2" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Iced Coffee Latte</h3>
+                            <p class="recipe-description">Perfect cold brew coffee with steamed milk, vanilla syrup, and a hint of cinnamon</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 8 mins</span>
+                                <span>🥄 Serves 1</span>
+                                <span>☕ Coffee</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Iced Coffee Latte')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Iced Coffee Latte')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sri Lankan Dishes -->
+                    <div class="recipe-card" data-category="sri-lankan" data-difficulty="medium" data-time="60" data-diet="">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★★☆ Medium</span>
+                            <span class="rating-badge">4.9</span>
+                            <img src="../assets/images/Authentic Kottu Roti.jpg" alt="SL-Recipe-1" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Authentic Kottu Roti</h3>
+                            <p class="recipe-description">Traditional Sri Lankan street food with chopped roti, vegetables, egg, and your choice of meat or chicken</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 45 mins</span>
+                                <span>🥄 Serves 4</span>
+                                <span>🇱🇰 Sri Lankan</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Authentic Kottu Roti')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Authentic Kottu Roti')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="sri-lankan" data-difficulty="hard" data-time="120" data-diet="">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★★★ Hard</span>
+                            <span class="rating-badge">4.8</span>
+                            <img src="../assets/images/Fish Ambul Thiyal.jpg" alt="SL-Recipe-2" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Fish Ambul Thiyal</h3>
+                            <p class="recipe-description">Traditional sour fish curry from Southern Sri Lanka with goraka, spices, and fresh fish</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 1.5 hours</span>
+                                <span>🥄 Serves 6</span>
+                                <span>🐟 Seafood</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Fish Ambul Thiyal')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Fish Ambul Thiyal')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More recipes -->
+                    <div class="recipe-card" data-category="desserts" data-difficulty="easy" data-time="25" data-diet="vegetarian">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.6</span>
+                            <img src="../assets/images/Classic Tiramisu.jpg" alt="Dessert-Recipe-M" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Classic Tiramisu</h3>
+                            <p class="recipe-description">Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream, dusted with cocoa</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 20 mins</span>
+                                <span>🥄 Serves 8</span>
+                                <span>🇮🇹 Italian</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Classic Tiramisu')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Classic Tiramisu')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="quick-meals" data-difficulty="easy" data-time="12" data-diet="gluten-free">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★☆☆ Easy</span>
+                            <span class="rating-badge">4.7</span>
+                            <img src="../assets/images/Rainbow Vegetable Bowl.jpg" alt="QM-Recipe-M" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Rainbow Vegetable Bowl</h3>
+                            <p class="recipe-description">Colorful and nutritious bowl with quinoa, roasted vegetables, chickpeas, and tahini dressing</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 10 mins</span>
+                                <span>🥄 Serves 2</span>
+                                <span>🥗 Healthy</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Rainbow Vegetable Bowl')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Rainbow Vegetable Bowl')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="sri-lankan" data-difficulty="medium" data-time="75" data-diet="">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★★☆ Medium</span>
+                            <span class="rating-badge">4.9</span>
+                            <img src="../assets/images/String Hoppers with Coconut Sambol.jpg" alt="SL-Recipe-M" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">String Hoppers with Coconut Sambol</h3>
+                            <p class="recipe-description">Traditional Sri Lankan String Hoppers served with spicy coconut sambol and curry</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 1 hour</span>
+                                <span>🥄 Serves 4</span>
+                                <span>🇱🇰 Traditional</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('String Hoppers with Coconut Sambol')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('String Hoppers with Coconut Sambol')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipe-card" data-category="drinks" data-difficulty="medium" data-time="30" data-diet="vegetarian">
+                        <div class="recipe-image">
+                            <span class="difficulty-badge">★★☆ Medium</span>
+                            <span class="rating-badge">4.8</span>
+                            <img src="../assets/images/Matcha Bubble Tea.avif" alt="Drink-Recipe-M" style="width: 100%; height: auto;">
+                        </div>
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Matcha Bubble Tea</h3>
+                            <p class="recipe-description">Creamy matcha tea with homemade tapioca pearls, sweetened condensed milk, and ice</p>
+                            <div class="recipe-meta">
+                                <span>⏱️ 25 mins</span>
+                                <span>🥄 Serves 2</span>
+                                <span>🍵 Asian</span>
+                            </div>
+                            <div class="recipe-actions">
+                                <button class="btn btn-primary" onclick="cookRecipe('Matcha Bubble Tea')">Cook Now</button>
+                                <button class="btn btn-secondary" onclick="saveRecipe('Matcha Bubble Tea')">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Load More Section -->
+            <section class="load-more">
+                <button class="load-more-btn" onclick="loadMoreRecipes()">Load More Recipes</button>
+            </section>
+        </div>
+    </main>
+
+<!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+
+    <script>
+        // Recipe data management
+        let allRecipes = [];
+        let filteredRecipes = [];
+        let currentFilters = {
+            category: '',
+            difficulty: '',
+            time: '',
+            diet: '',
+            search: ''
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeRecipes();
+            updateRecipeCount();
+        });
+
+        function initializeRecipes() {
+            const recipeCards = document.querySelectorAll('.recipe-card');
+            allRecipes = Array.from(recipeCards).map(card => ({
+                element: card,
+                title: card.querySelector('.recipe-title').textContent,
+                category: card.dataset.category,
+                difficulty: card.dataset.difficulty,
+                time: parseInt(card.dataset.time),
+                diet: card.dataset.diet,
+                description: card.querySelector('.recipe-description').textContent
+            }));
+            filteredRecipes = [...allRecipes];
+        }
+
+        // Search functionality
+        function searchRecipes() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentFilters.search = searchTerm;
+            applyAllFilters();
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            document.getElementById('categoryFilter').value = category;
+            currentFilters.category = category;
+            applyAllFilters();
+            
+            // Scroll to recipes section
+            document.querySelector('.recipes-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Apply filters
+        function applyFilters() {
+            currentFilters.category = document.getElementById('categoryFilter').value;
+            currentFilters.difficulty = document.getElementById('difficultyFilter').value;
+            currentFilters.time = document.getElementById('timeFilter').value;
+            currentFilters.diet = document.getElementById('dietFilter').value;
+            
+            applyAllFilters();
+        }
+
+        function applyAllFilters() {
+            filteredRecipes = allRecipes.filter(recipe => {
+                // Category filter
+                if (currentFilters.category && recipe.category !== currentFilters.category) {
+                    return false;
+                }
+
+                // Difficulty filter
+                if (currentFilters.difficulty && recipe.difficulty !== currentFilters.difficulty) {
+                    return false;
+                }
+
+                // Time filter
+                if (currentFilters.time) {
+                    const maxTime = parseInt(currentFilters.time);
+                    if (recipe.time > maxTime) {
+                        return false;
+                    }
+                }
+
+                // Diet filter
+                if (currentFilters.diet && recipe.diet !== currentFilters.diet) {
+                    return false;
+                }
+
+                // Search filter
+                if (currentFilters.search) {
+                    const searchLower = currentFilters.search.toLowerCase();
+                    if (!recipe.title.toLowerCase().includes(searchLower) && 
+                        !recipe.description.toLowerCase().includes(searchLower)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            displayFilteredRecipes();
+            updateRecipeCount();
+        }
+
+        function displayFilteredRecipes() {
+            const recipesGrid = document.getElementById('recipesGrid');
+            
+            // Hide all recipe cards
+            allRecipes.forEach(recipe => {
+                recipe.element.style.display = 'none';
+            });
+
+            // Show filtered recipe cards
+            filteredRecipes.forEach(recipe => {
+                recipe.element.style.display = 'block';
+            });
+
+            // Show no results message if no recipes found
+            const existingNoResults = document.querySelector('.no-results');
+            if (existingNoResults) {
+                existingNoResults.remove();
+            }
+
+            if (filteredRecipes.length === 0) {
+                const noResultsDiv = document.createElement('div');
+                noResultsDiv.className = 'no-results';
+                noResultsDiv.style.cssText = `
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 3rem;
+                    color: #666;
+                    font-size: 1.2rem;
+                `;
+                noResultsDiv.innerHTML = `
+                    <h3>No recipes found</h3>
+                    <p>Try adjusting your filters or search terms</p>
+                    <button onclick="clearAllFilters()" style="
+                        background: #ff6b35;
+                        color: white;
+                        padding: 0.8rem 1.5rem;
+                        border: none;
+                        border-radius: 25px;
+                        margin-top: 1rem;
+                        cursor: pointer;
+                        font-weight: bold;
+                    ">Clear All Filters</button>
+                `;
+                recipesGrid.appendChild(noResultsDiv);
+            }
+        }
+
+        function updateRecipeCount() {
+            const countElement = document.getElementById('recipeCount');
+            countElement.textContent = `(${filteredRecipes.length} recipes)`;
+        }
+
+        function clearAllFilters() {
+            // Reset all filter inputs
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('timeFilter').value = '';
+            document.getElementById('dietFilter').value = '';
+            document.getElementById('searchInput').value = '';
+
+            // Reset filter object
+            currentFilters = {
+                category: '',
+                difficulty: '',
+                time: '',
+                diet: '',
+                search: ''
+            };
+
+            // Apply filters (will show all recipes)
+            applyAllFilters();
+        }
+
+        // Recipe actions
+        function cookRecipe(recipeName) {
+            alert(`Starting to cook "${recipeName}"! This would open the cooking interface with step-by-step instructions and option to create a live cooking session.`);
+        }
+
+        function saveRecipe(recipeName) {
+            alert(`"${recipeName}" saved to your favorites! You can access it from your profile.`);
+        }
+
+        // Load more recipes
+        function loadMoreRecipes() {
+            alert('Loading more recipes... In the full application, this would load additional recipes from the database.');
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchRecipes();
+            }
+        });
+
+        // Auto-search as user types (with debounce)
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentFilters.search = this.value.toLowerCase();
+                applyAllFilters();
+            }, 300);
+        });
+
+        // Add visual feedback for active filters
+        function updateFilterVisuals() {
+            const filters = ['categoryFilter', 'difficultyFilter', 'timeFilter', 'dietFilter'];
+            filters.forEach(filterId => {
+                const element = document.getElementById(filterId);
+                if (element.value) {
+                    element.classList.add('filter-active');
+                } else {
+                    element.classList.remove('filter-active');
+                }
+            });
+        }
+
+        // Update filter visuals when filters change
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', updateFilterVisuals);
+        });
+
+        // Sort functionality
+        function sortRecipes(sortBy) {
+            switch(sortBy) {
+                case 'rating':
+                    filteredRecipes.sort((a, b) => {
+                        const ratingA = parseFloat(a.element.querySelector('.rating-badge').textContent);
+                        const ratingB = parseFloat(b.element.querySelector('.rating-badge').textContent);
+                        return ratingB - ratingA;
+                    });
+                    break;
+                case 'time':
+                    filteredRecipes.sort((a, b) => a.time - b.time);
+                    break;
+                case 'name':
+                    filteredRecipes.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+            }
+            displayFilteredRecipes();
+        }
+
+        // Add sort dropdown (you can add this to the HTML if needed)
+        function addSortDropdown() {
+            const sortHTML = `
+                <div class="filter-group">
+                    <label for="sortFilter">Sort by</label>
+                    <select id="sortFilter" onchange="sortRecipes(this.value)">
+                        <option value="">Default</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="time">Quickest First</option>
+                        <option value="name">Name (A-Z)</option>
+                    </select>
+                </div>
+            `;
+            // You can add this to the filters section if needed
+        }
+    </script>
+</body>
+</html>

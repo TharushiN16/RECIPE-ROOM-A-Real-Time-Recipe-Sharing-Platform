@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .last-updated {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ff6b35;
+        }
+
+        .section-content {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content ul, .section-content ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: #fff5f2;
+            border: 1px solid #ff6b35;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box h4 {
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+        }
+
+        .table-of-contents {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .table-of-contents h3 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+        }
+
+        .table-of-contents ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.5rem;
+        }
+
+        .table-of-contents a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .table-of-contents a:hover {
+            color: #ff6b35;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info a {
+            color: #ff6b35;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .table-of-contents {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo">
+                <span>Recipe Room</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1>Terms of Service</h1>
+                <p>Please read these terms carefully before using Recipe Room.</p>
+                <div class="last-updated">Last updated: August 14, 2025</div>
+            </section>
+
+            <!-- Table of Contents -->
+            <div class="table-of-contents">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#acceptance">1. Acceptance of Terms</a></li>
+                    <li><a href="#service-description">2. Description of Service</a></li>
+                    <li><a href="#user-accounts">3. User Accounts</a></li>
+                    <li><a href="#user-conduct">4. User Conduct</a></li>
+                    <li><a href="#content-ownership">5. Content Ownership and License</a></li>
+                    <li><a href="#ai-assistant">6. AI Assistant Disclaimer</a></li>
+                    <li><a href="#live-sessions">7. Live Cooking Sessions</a></li>
+                    <li><a href="#intellectual-property">8. Intellectual Property</a></li>
+                    <li><a href="#disclaimer-of-warranties">9. Disclaimer of Warranties</a></li>
+                    <li><a href="#limitation-of-liability">10. Limitation of Liability</a></li>
+                    <li><a href="#indemnification">11. Indemnification</a></li>
+                    <li><a href="#termination">12. Termination</a></li>
+                    <li><a href="#governing-law">13. Governing Law</a></li>
+                    <li><a href="#changes-to-terms">14. Changes to Terms</a></li>
+                    <li><a href="#miscellaneous">15. Miscellaneous</a></li>
+                    <li><a href="#contact-us">16. Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Acceptance of Terms -->
+            <section class="content-section" id="acceptance">
+                <h2 class="section-title">1. Acceptance of Terms</h2>
+                <div class="section-content">
+                    <p>By accessing or using the Recipe Room platform, and any services provided therein (collectively, the "Service"), you agree to be bound by these Terms of Service ("Terms"), our Privacy Policy, and all applicable laws and regulations. If you do not agree with any part of these Terms, you must not use the Service.</p>
+                    <p>These Terms constitute a legally binding agreement between you and Recipe Room (referred to as "we", "us", or "our").</p>
+                </div>
+            </section>
+
+            <!-- Service Description -->
+            <section class="content-section" id="service-description">
+                <h2 class="section-title">2. Description of Service</h2>
+                <div class="section-content">
+                    <p>Recipe Room is a real-time cooking platform designed to connect users through shared culinary experiences. The Service includes, but is not limited to:</p>
+                    <ul>
+                        <li>Creation and participation in virtual live cooking rooms.</li>
+                        <li>Real-time communication features (chat, audio, video).</li>
+                        <li>Access to an AI Chef Assistant for cooking guidance and recommendations.</li>
+                        <li>Browsing, sharing, and saving recipes.</li>
+                        <li>Community features such as forums, challenges, and leaderboards.</li>
+                    </ul>
+                    <p>We reserve the right to modify, suspend, or discontinue the Service (or any part thereof) at any time with or without notice to you.</p>
+                </div>
+            </section>
+
+            <!-- User Accounts -->
+            <section class="content-section" id="user-accounts">
+                <h2 class="section-title">3. User Accounts</h2>
+                <div class="section-content">
+                    <h4>Account Creation:</h4>
+                    <p>To access certain features of the Service, you must register for an account. You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete.</p>
+                    <h4>Account Security:</h4>
+                    <p>You are responsible for maintaining the confidentiality of your account password and are solely responsible for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account.</p>
+                    <h4>Eligibility:</h4>
+                    <p>You must be at least 13 years old to create an account. If you are between 13 and 18, you must have parental or guardian consent to use the Service.</p>
+                </div>
+            </section>
+
+            <!-- User Conduct -->
+            <section class="content-section" id="user-conduct">
+                <h2 class="section-title">4. User Conduct</h2>
+                <div class="section-content">
+                    <p>You agree to use the Service only for lawful purposes and in a way that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the Service. Prohibited conduct includes:</p>
+                    <ul>
+                        <li>Uploading, posting, or transmitting any content that is unlawful, harmful, threatening, abusive, harassing, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically, or otherwise objectionable.</li>
+                        <li>Impersonating any person or entity, or falsely stating or otherwise misrepresenting your affiliation with a person or entity.</li>
+                        <li>Engaging in any activity that interferes with or disrupts the Service or the servers and networks connected to the Service.</li>
+                        <li>Attempting to gain unauthorized access to any portion of the Service, other accounts, computer systems, or networks connected to the Service.</li>
+                        <li>Using the Service for any commercial purposes without our express written consent.</li>
+                        <li>Sharing or promoting content that is dangerous, illegal, or promotes self-harm.</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <h4>Safety First:</h4>
+                        <p>When participating in live cooking sessions, always prioritize your safety. Exercise caution with sharp objects, hot surfaces, and electrical appliances. Recipe Room is not responsible for any injuries or damages incurred during cooking activities.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Ownership and License -->
+            <section class="content-section" id="content-ownership">
+                <h2 class="section-title">5. Content Ownership and License</h2>
+                <div class="section-content">
+                    <h4>Your Content:</h4>
+                    <p>You retain all ownership rights to the content you create, upload, or share on the Service ("Your Content"), including recipes, photos, videos, and comments.</p>
+                    <h4>License to Recipe Room:</h4>
+                    <p>By submitting Your Content to the Service, you grant Recipe Room a countrywide, non-exclusive, royalty-free, transferable, and sublicensable license to use, reproduce, distribute, prepare derivative works of, display, and perform Your Content in connection with the Service and Recipe Room's (and its successors' and affiliates') business, including without limitation for promoting and redistributing part or all of the Service (and derivative works thereof) in any media formats and through any media channels.</p>
+                    <h4>Public Nature of Content:</h4>
+                    <p>You understand that any content you post publicly on the Service may be viewed by other users and the public. Do not post any content that you do not wish to be publicly available.</p>
+                </div>
+            </section>
+
+            <!-- AI Assistant Disclaimer -->
+            <section class="content-section" id="ai-assistant">
+                <h2 class="section-title">6. AI Assistant Disclaimer</h2>
+                <div class="section-content">
+                    <p>The AI Chef Assistant ("AI Assistant") provided on the Service is powered by artificial intelligence and is intended to offer general cooking guidance, recipe suggestions, and tips. While we strive for accuracy, the AI Assistant's responses are generated based on available data and may not always be perfect, complete, or suitable for your specific needs.</p>
+                    <p>You acknowledge and agree that:</p>
+                    <ul>
+                        <li>The AI Assistant is not a substitute for professional culinary advice or medical/dietary consultation.</li>
+                        <li>You should always use your own judgment and discretion when following any advice or recipes provided by the AI Assistant.</li>
+                        <li>Recipe Room is not responsible for any adverse outcomes, allergic reactions, or health issues resulting from following AI Assistant suggestions.</li>
+                        <li>The AI Assistant's responses are for informational purposes only and do not constitute a guarantee of results.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Live Cooking Sessions -->
+            <section class="content-section" id="live-sessions">
+                <h2 class="section-title">7. Live Cooking Sessions</h2>
+                <div class="section-content">
+                    <p>Recipe Room offers live video and audio cooking sessions. By participating, you agree to:</p>
+                    <ul>
+                        <li>Be respectful and courteous to other participants and hosts.</li>
+                        <li>Not share any personal or sensitive information that you do not wish to be public.</li>
+                        <li>Understand that sessions may be recorded for quality, moderation, and promotional purposes (as outlined in our Privacy Policy).</li>
+                        <li>Comply with all instructions from the session host.</li>
+                        <li>Ensure your cooking environment is safe and suitable for live streaming.</li>
+                    </ul>
+                    <p>We reserve the right to remove any participant from a live session who violates these Terms or engages in disruptive behavior.</p>
+                </div>
+            </section>
+
+            <!-- Intellectual Property -->
+            <section class="content-section" id="intellectual-property">
+                <h2 class="section-title">8. Intellectual Property</h2>
+                <div class="section-content">
+                    <p>All intellectual property rights in the Service, including but not limited to copyrights, trademarks, trade names, logos, and design elements (excluding Your Content), are owned by Recipe Room or its licensors. You may not use, reproduce, distribute, or create derivative works of any part of the Service without our express written permission.</p>
+                    <p>The Recipe Room name and logo are trademarks of Recipe Room. You may not use these without our prior written consent.</p>
+                </div>
+            </section>
+
+            <!-- Disclaimer of Warranties -->
+            <section class="content-section" id="disclaimer-of-warranties">
+                <h2 class="section-title">9. Disclaimer of Warranties</h2>
+                <div class="section-content">
+                    <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. RECIPE ROOM DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, OR THAT ANY DEFECTS WILL BE CORRECTED. WE DO NOT WARRANT THAT THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE SERVICE WILL BE ACCURATE OR RELIABLE.</p>
+                    <p>YOU USE THE SERVICE AT YOUR OWN SOLE RISK.</p>
+                </div>
+            </section>
+
+            <!-- Limitation of Liability -->
+            <section class="content-section" id="limitation-of-liability">
+                <h2 class="section-title">10. Limitation of Liability</h2>
+                <div class="section-content">
+                    <p>TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL RECIPE ROOM, ITS AFFILIATES, DIRECTORS, EMPLOYEES, OR LICENSORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING WITHOUT LIMITATION, LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM (I) YOUR ACCESS TO OR USE OF OR INABILITY TO ACCESS OR USE THE SERVICE; (II) ANY CONDUCT OR CONTENT OF ANY THIRD PARTY ON THE SERVICE; (III) ANY CONTENT OBTAINED FROM THE SERVICE; AND (IV) UNAUTHORIZED ACCESS, USE, OR ALTERATION OF YOUR TRANSMISSIONS OR CONTENT, WHETHER BASED ON WARRANTY, CONTRACT, TORT (INCLUDING NEGLIGENCE), OR ANY OTHER LEGAL THEORY, WHETHER OR NOT WE HAVE BEEN INFORMED OF THE POSSIBILITY OF SUCH DAMAGE, AND EVEN IF A REMEDY SET FORTH HEREIN IS FOUND TO HAVE FAILED OF ITS ESSENTIAL PURPOSE.</p>
+                </div>
+            </section>
+
+            <!-- Indemnification -->
+            <section class="content-section" id="indemnification">
+                <h2 class="section-title">11. Indemnification</h2>
+                <div class="section-content">
+                    <p>You agree to defend, indemnify, and hold harmless Recipe Room, its affiliates, licensors, and service providers, and its and their respective officers, directors, employees, contractors, agents, licensors, suppliers, successors, and assigns from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Service, including, but not limited to, Your Content, any use of the Service's content, services, and products other than as expressly authorized in these Terms, or your use of any information obtained from the Service.</p>
+                </div>
+            </section>
+
+            <!-- Termination -->
+            <section class="content-section" id="termination">
+                <h2 class="section-title">12. Termination</h2>
+                <div class="section-content">
+                    <p>We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
+                    <p>If you wish to terminate your account, you may simply discontinue using the Service or contact us to request account deletion.</p>
+                    <p>All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+                </div>
+            </section>
+
+            <!-- Governing Law -->
+            <section class="content-section" id="governing-law">
+                <h2 class="section-title">13. Governing Law</h2>
+                <div class="section-content">
+                    <p>These Terms shall be governed and construed in accordance with the laws of Sri Lanka, without regard to its conflict of law provisions.</p>
+                    <p>Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.</p>
+                </div>
+            </section>
+
+            <!-- Changes to Terms -->
+            <section class="content-section" id="changes-to-terms">
+                <h2 class="section-title">14. Changes to Terms</h2>
+                <div class="section-content">
+                    <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
+                    <p>By continuing to access or use our Service after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you are no longer authorized to use the Service.</p>
+                </div>
+            </section>
+
+            <!-- Miscellaneous -->
+            <section class="content-section" id="miscellaneous">
+                <h2 class="section-title">15. Miscellaneous</h2>
+                <div class="section-content">
+                    <h4>Entire Agreement:</h4>
+                    <p>These Terms, together with the Privacy Policy, constitute the entire agreement between you and Recipe Room regarding the Service.</p>
+                    <h4>Assignment:</h4>
+                    <p>You may not assign or transfer these Terms, by operation of law or otherwise, without our prior written consent. Any attempt by you to assign or transfer these Terms, without such consent, will be null and void. We may freely assign or transfer these Terms without restriction.</p>
+                    <h4>Severability:</h4>
+                    <p>If any provision of these Terms is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that these Terms will otherwise remain in full force and effect and enforceable.</p>
+                </div>
+            </section>
+
+            <!-- Contact Information -->
+            <section class="content-section" id="contact-us">
+                <h2 class="section-title">16. Contact Us</h2>
+                <div class="section-content">
+                    <p>If you have any questions about these Terms, please contact us:</p>
+                </div>
+            </section>
+
+            <!-- Contact Info Box -->
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p><strong>Email:</strong> <a href="mailto:reciperoom@gmail.com">reciperoom@gmail.com</a></p>
+                <p><strong>General Inquiries:</strong> <a href="mailto:reciperoom@gmail.com">reciperoom@gmail.com</a></p>
+                <p><strong>Address:</strong> Recipe Room, Galle, Southern Province, Sri Lanka</p>
+                <p><strong>Response Time:</strong> We aim to respond to all inquiries within 72 hours</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+</body>
+</html>

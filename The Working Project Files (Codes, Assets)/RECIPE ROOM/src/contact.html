@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact Form Section */
+        .contact-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            grid-column: 1 / -1; /* Span across both columns */
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Arial', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            align-self: flex-start;
+        }
+
+        .submit-btn:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        /* Contact Info Details */
+        .contact-details {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        .contact-details h3 {
+            color: #ff6b35;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-icon {
+            font-size: 1.8rem;
+            color: #ff6b35;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .detail-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: #333;
+        }
+
+        .detail-content p, .detail-content a {
+            font-size: 1rem;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .detail-content a:hover {
+            color: #ff6b35;
+            text-decoration: underline;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .map-section h2 {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .faq-section h2 {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 1rem;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .contact-section {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .map-container {
+                height: 300px;
+            }
+
+            .faq-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo">
+                <span>Recipe Room</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1>Contact Us</h1>
+                <p>We'd love to hear from you! Whether you have a question, feedback, or need support, our team is here to help.</p>
+            </section>
+
+            <!-- Contact Form & Details Section -->
+            <section class="contact-section">
+                <h2 class="section-title">Get in Touch</h2>
+                
+                <form class="contact-form" onsubmit="submitContactForm(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="feedback">Feedback / Suggestion</option>
+                            <option value="partnership">Partnership Inquiry</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Type your message here..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+
+                <div class="contact-details">
+                    <h3>Our Contact Information</h3>
+                    <div class="detail-item">
+                        <div class="detail-icon">📧</div>
+                        <div class="detail-content">
+                            <h4>Email Us</h4>
+                            <p><a href="mailto:reciperoom@gmail.com">reciperoom@gmail.com</a></p>
+                            <p>For general inquiries and technical support.</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">📞</div>
+                        <div class="detail-content">
+                            <h4>Call Us</h4>
+                            <p>+94 77 123 4567</p>
+                            <p>Available Monday - Friday, 9 AM - 5 PM (SL Time).</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-content">
+                            <h4>Visit Us</h4>
+                            <p>Recipe Room HQ, Galle, Southern Province, Sri Lanka</p>
+                            <p>By appointment only.</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon">💬</div>
+                        <div class="detail-content">
+                            <h4>Live Chat</h4>
+                            <p>Chat with our AI Assistant for instant help!</p>
+                            <p>Available 24/7 for quick questions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Map Section -->
+            <section class="map-section">
+                <h2>Find Us on the Map</h2>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.6000000000005!2d80.21670000000001!3d6.032900000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae1738123456789%3A0x123456789abcdef!2sGalle%2C%20Southern%20Province%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1678901234567!5m2!1sen!2sus" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">How do I create a live cooking session?</div>
+                        <div class="faq-answer">
+                            To create a live cooking session, navigate to the "Live Kitchens" page and click on the "Start Live Kitchen" button. You'll be prompted to enter details like kitchen name, recipe category, and maximum participants. Once created, you'll get a room code to share with friends.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Is the AI Chef Assistant free to use?</div>
+                        <div class="faq-answer">
+                            Yes, the basic features of the AI Chef Assistant are completely free for all registered users. We may introduce premium AI features in the future, but core assistance will remain free.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">Can I share my own recipes on Recipe Room?</div>
+                        <div class="faq-answer">
+                            Absolutely! We encourage users to share their culinary creations. Go to the "Community" page and use the "Share Your Recipe" option to upload your recipes, photos, and cooking tips.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">What kind of recipes can I find on the platform?</div>
+                        <div class="faq-answer">
+                            Recipe Room features a diverse range of recipes, from quick meals and desserts to traditional Sri Lankan dishes and international cuisines. You can use the browse and filter options to find exactly what you're looking for.
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleFAQ(this)">How do I report inappropriate content or behavior?</div>
+                        <div class="faq-answer">
+                            We take community safety seriously. If you encounter any inappropriate content or behavior, please use the "Report" function available on posts and in live sessions, or contact our support team directly via the form above or email.
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+
+    <script>
+        function submitContactForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            if (name && email && subject && message) {
+                alert(`Thank you, ${name}! Your message has been sent. We will get back to you shortly.`);
+                // In a real application, you would send this data to a backend server
+                // e.g., using fetch() or XMLHttpRequest
+                event.target.reset(); // Clear the form
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        }
+
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+            const answer = element.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                answer.classList.remove('active');
+            } else {
+                answer.style.display = 'block';
+                answer.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

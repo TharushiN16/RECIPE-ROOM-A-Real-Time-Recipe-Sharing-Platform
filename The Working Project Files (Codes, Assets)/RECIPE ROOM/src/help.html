@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            transition: box-shadow 0.3s;
+        }
+
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.5);
+        }
+
+        .search-btn {
+            background: white;
+            color: #ff6b35;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Quick Links / Popular Topics */
+        .quick-links-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .quick-links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .link-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eee;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #ff6b35;
+        }
+
+        .link-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+            color: #ff6b35;
+        }
+
+        .link-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1.5rem;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 1rem;
+            display: none;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Contact Support Section */
+        .contact-support-section {
+            background: linear-gradient(135deg, #333, #555);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .contact-support-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-support-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .contact-btn {
+            background: white;
+            color: #ff6b35;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .quick-links-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .quick-links-section,
+            .faq-section,
+            .contact-support-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo">
+                <span>Recipe Room</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1>How Can We Help You?</h1>
+                <p>Find answers to your questions, learn how to use Recipe Room's features, or get in touch with our support team.</p>
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="helpSearchInput" placeholder="Search for topics, features, or common issues...">
+                    <button class="search-btn" onclick="searchHelp()">Search</button>
+                </div>
+            </section>
+
+            <!-- Quick Links / Popular Topics Section -->
+            <section class="quick-links-section">
+                <h2 class="section-title">Quick Links & Popular Topics</h2>
+                <div class="quick-links-grid">
+                    <div class="link-card" onclick="scrollToFAQ('account-management')">
+                        <div class="link-icon">👤</div>
+                        <div class="link-title">Account Management</div>
+                    </div>
+                    <div class="link-card" onclick="scrollToFAQ('live-kitchens')">
+                        <div class="link-icon">🎥</div>
+                        <div class="link-title">Live Kitchens</div>
+                    </div>
+                    <div class="link-card" onclick="scrollToFAQ('ai-assistant')">
+                        <div class="link-icon">🤖</div>
+                        <div class="link-title">AI Assistant</div>
+                    </div>
+                    <div class="link-card" onclick="scrollToFAQ('recipes-sharing')">
+                        <div class="link-icon">📖</div>
+                        <div class="link-title">Recipes & Sharing</div>
+                    </div>
+                    <div class="link-card" onclick="scrollToFAQ('community-features')">
+                        <div class="link-icon">🤝</div>
+                        <div class="link-title">Community Features</div>
+                    </div>
+                    <div class="link-card" onclick="scrollToFAQ('troubleshooting')">
+                        <div class="link-icon">🛠️</div>
+                        <div class="link-title">Troubleshooting</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-list">
+                    <!-- Account Management -->
+                    <div class="faq-category" id="account-management">
+                        <h3>Account Management</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I create an account?</div>
+                            <div class="faq-answer">
+                                To create an account, click on the "Sign Up" button in the top right corner of the homepage. You'll need to provide your name, email, password, and select your cooking experience level.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I reset my password?</div>
+                            <div class="faq-answer">
+                                If you forget your password, click "Log In" and then "Forgot Password?". Follow the instructions to receive a password reset link via email.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How can I update my profile information?</div>
+                            <div class="faq-answer">
+                                You can update your profile information (e.g., profile picture, dietary preferences) by navigating to your "Profile Settings" once logged in.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Kitchens -->
+                    <div class="faq-category" id="live-kitchens">
+                        <h3>Live Kitchens</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I start my own live kitchen?</div>
+                            <div class="faq-answer">
+                                Go to the "Live Kitchens" page and click the "Start Live Kitchen" button. You'll set up your kitchen name, choose a recipe, and invite participants.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I join an existing live kitchen?</div>
+                            <div class="faq-answer">
+                                You can browse available live kitchens on the "Live Kitchens" page and click "Join Kitchen". If you have a specific room code, you can enter it to join.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">What equipment do I need for live sessions?</div>
+                            <div class="faq-answer">
+                                You'll need a device with a camera and microphone (e.g., smartphone, tablet, laptop) and a stable internet connection. A good lighting setup is also recommended for better visibility.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Assistant -->
+                    <div class="faq-category" id="ai-assistant">
+                        <h3>AI Assistant</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">What can the AI Chef Assistant do?</div>
+                            <div class="faq-answer">
+                                The AI Chef Assistant can provide recipe recommendations, ingredient substitutions, cooking timing guidance, temperature advice, technique tutorials, shopping lists, and meal planning suggestions.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How accurate is the AI Assistant's advice?</div>
+                            <div class="faq-answer">
+                                The AI Assistant is powered by advanced AI models and strives for accuracy. However, it provides general guidance. Always use your best judgment and prioritize safety in the kitchen.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipes & Sharing -->
+                    <div class="faq-category" id="recipes-sharing">
+                        <h3>Recipes & Sharing</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I upload my own recipe?</div>
+                            <div class="faq-answer">
+                                On the "Community" page, look for the "Share Your Recipe" button or a similar option to create a new post. You can then add your recipe details, ingredients, instructions, and photos.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">Can I save recipes for later?</div>
+                            <div class="faq-answer">
+                                Yes, you can save any recipe you find on Recipe Room to your personal collection. Look for a "Save" or "Add to Favorites" button on each recipe card or detail page.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Community Features -->
+                    <div class="faq-category" id="community-features">
+                        <h3>Community Features</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">How do I participate in cooking challenges?</div>
+                            <div class="faq-answer">
+                                Visit the "Community" page and navigate to the "Challenges" tab. You'll find ongoing challenges with themes, rules, and prizes. Click "Join Challenge" to participate.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">What is the Leaderboard?</div>
+                            <div class="faq-answer">
+                                The Leaderboard showcases top chefs in the Recipe Room community based on their activity, recipes shared, live session participation, and community engagement. It's a fun way to see who's cooking up a storm!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Troubleshooting -->
+                    <div class="faq-category" id="troubleshooting">
+                        <h3>Troubleshooting</h3>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">I'm experiencing technical issues. What should I do?</div>
+                            <div class="faq-answer">
+                                First, try refreshing the page or restarting your browser/app. If the issue persists, check your internet connection. If you still need help, please contact our support team using the form below or via email.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">My video/audio isn't working in a live kitchen.</div>
+                            <div class="faq-answer">
+                                Ensure your browser has permission to access your camera and microphone. Check your device's privacy settings. Try disconnecting and rejoining the session. If problems continue, consult our technical support.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Support Section -->
+            <section class="contact-support-section">
+                <h2>Still Need Help?</h2>
+                <p>If you couldn't find the answer to your question, our dedicated support team is ready to assist you.</p>
+                <a href="contact.html" class="contact-btn">Contact Support</a>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+            const answer = element.nextElementSibling;
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                answer.classList.remove('active');
+            } else {
+                answer.style.display = 'block';
+                answer.classList.add('active');
+            }
+        }
+
+        function searchHelp() {
+            const searchTerm = document.getElementById('helpSearchInput').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            let found = false;
+
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    item.querySelector('.faq-question').classList.add('active');
+                    item.querySelector('.faq-answer').classList.add('active');
+                    found = true;
+                } else {
+                    item.style.display = 'none';
+                    item.querySelector('.faq-question').classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                }
+            });
+
+            const faqCategories = document.querySelectorAll('.faq-category');
+            faqCategories.forEach(category => {
+                const visibleItems = category.querySelectorAll('.faq-item[style*="block"]');
+                if (visibleItems.length > 0) {
+                    category.style.display = 'block';
+                } else {
+                    category.style.display = 'none';
+                }
+            });
+
+            if (!found && searchTerm !== '') {
+                alert('No results found for your search. Please try different keywords or contact support.');
+            } else if (searchTerm === '') {
+                // If search bar is cleared, show all FAQs
+                faqItems.forEach(item => {
+                    item.style.display = 'block';
+                    item.querySelector('.faq-question').classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                });
+                faqCategories.forEach(category => {
+                    category.style.display = 'block';
+                });
+            }
+        }
+
+        function scrollToFAQ(categoryId) {
+            const categoryElement = document.getElementById(categoryId);
+            if (categoryElement) {
+                // First, hide all FAQs and then show only the target category's FAQs
+                const faqItems = document.querySelectorAll('.faq-item');
+                faqItems.forEach(item => {
+                    item.style.display = 'none';
+                    item.querySelector('.faq-question').classList.remove('active');
+                    item.querySelector('.faq-answer').classList.remove('active');
+                });
+                const faqCategories = document.querySelectorAll('.faq-category');
+                faqCategories.forEach(category => {
+                    category.style.display = 'none';
+                });
+
+                categoryElement.style.display = 'block';
+                categoryElement.querySelectorAll('.faq-item').forEach(item => {
+                    item.style.display = 'block';
+                });
+
+                categoryElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    </script>
+</body>
+</html>

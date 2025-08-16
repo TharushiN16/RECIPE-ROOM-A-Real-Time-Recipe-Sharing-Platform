@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Room - Share. Cook. Connect.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+	    min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+	.login-btn, .signup-btn {
+            background: white;
+            color: #ff6b35;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+            margin-left: 0;
+        }
+
+        .login-btn:hover, .signup-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 120px 2rem 80px;
+            text-align: left;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: left;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #ff6b35;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero-image {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 0.5rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            color: rgba(255,255,255,0.7);
+            font-size: 1.2rem;
+        }
+
+        .hero-image img {
+    	   width: 100%; 
+    	   max-width: 600px;  
+    	   height: auto; 
+	}
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .view-all {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Live Kitchens */
+        .live-kitchens {
+            background: white;
+        }
+
+        .kitchen-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .kitchen-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .kitchen-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .kitchen-image {
+            height: 200px;
+	    overflow: hidden; 
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+       .kitchen-image img {
+           width: 100%; 
+           height: 100%; 
+           object-fit: cover; 
+        }
+
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff4444;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .kitchen-info {
+            padding: 1.5rem;
+        }
+
+        .kitchen-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .kitchen-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .participants {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Featured Recipes */
+        .featured-recipes {
+            background: #f8f9fa;
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .recipe-image {
+            height: 200px;
+	   overflow: hidden; 
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+       .recipe-image img {
+           width: 100%; 
+           height: 100%; 
+           object-fit: cover; 
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 107, 53, 0.9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .recipe-info {
+            padding: 1.5rem;
+        }
+
+        .recipe-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .recipe-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .difficulty {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .cook-now-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .cook-now-btn:hover {
+            background: #e55a2b;
+        }
+
+        /* Trending Section */
+        .trending {
+            background: white;
+        }
+
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .trending-item {
+            background: linear-gradient(135deg, #333, #666);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .trending-item {
+	  width: 100%; 
+           height: 100%; 
+           object-fit: cover;  
+	}
+
+        .trending-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .trending-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .trending-stats {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Community Spotlight */
+        .community {
+            background: #f8f9fa;
+        }
+
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .community-post {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ff6b35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .post-author {
+            font-weight: bold;
+        }
+
+        .post-time {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .post-image {
+            height: 250px;
+	   overflow: hidden; 
+            background: #ddd;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+        }
+
+       .post-image img {
+           width: 100%; 
+           height: 100%; 
+           object-fit: cover; 
+        }
+
+
+        .post-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-description {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .read-more {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .kitchen-grid,
+            .recipe-grid,
+            .trending-grid,
+            .community-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 2rem 1rem;
+            }
+
+            .hero {
+                padding: 100px 1rem 60px;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+            color: #ff6b35;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* AI Chat Interface */
+        .ai-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 1500;
+        }
+
+        .chat-header {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .ai-message {
+            background: #f5f5f5;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ff6b35;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+            z-index: 1500;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo">
+                <h4>Recipe Room</h4>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+	    <a href="#" class="login-btn" onclick="openModal('loginModal')">Log In</a>
+            <a href="#" class="signup-btn" onclick="openModal('signupModal')">Sign Up</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Share. Cook. Connect.</h1>
+                <p>Join our real-time cooking community where recipes come to life. Share live streams, and cook together from anywhere in the world with AI-powered cooking assistance.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" onclick="openModal('createKitchenModal')">Start Cooking Live</a>
+                    <a href="#" class="btn btn-secondary" onclick="scrollToSection('live-kitchens')">Browse Recipes</a>
+                </div>
+            </div>
+            <div class="hero-image">
+	       <img src="../assets/images/Home-Recipe Room.jpg" alt="Recipe Room Home Page Image">
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Kitchens Section -->
+    <section class="section live-kitchens" id="live-kitchens">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Live Kitchens</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="kitchen-grid">
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+		      <img src="../assets/images/Mango-smoothie-lassi.jpg" alt="Live-Kitchen-1" style="width: 100%; height: auto;">
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-title"> Mango Smoothie Evening</h3>
+                        <div class="kitchen-meta">with Chef Maya • Started 30 min ago</div>
+                        <div class="participants">👥 5 participants cooking</div>
+                    </div>
+                </div>
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+		      <img src="../assets/images/Pasta.jpg" alt="Live-Kitchen-2" style="width: 100%; height: auto;">
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-title">Homemade Pasta Workshop</h3>
+                        <div class="kitchen-meta">with Anura Chef • Started 1 hour ago</div>
+                        <div class="participants">👥 8 participants cooking</div>
+                    </div>
+                </div>
+                <div class="kitchen-card">
+                    <div class="kitchen-image">
+	               <img src="../assets/images/Decadent Dessert.jpg" alt="Live-Kitchen-3" style="width: 100%; height: auto;">
+                        <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="kitchen-info">
+                        <h3 class="kitchen-title">Decadent Desserts Session</h3>
+                        <div class="kitchen-meta">with Sarah • Started 45 min ago</div>
+                        <div class="participants">👥 6 participants cooking</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Recipes Section -->
+    <section class="section featured-recipes">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Today's Featured Recipes</h2>
+                <a href="#" class="view-all">Discover More Recipes</a>
+            </div>
+            <div class="recipe-grid">
+                <div class="recipe-card">
+                    <div class="recipe-image">
+		      <img src="../assets/images/Mushroom-curry.jpg" alt="Recipe-1" style="width: 100%; height: auto;">
+                        <span class="rating-badge">★ 4.8</span>
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Mushroom Curry</h3>
+                        <div class="recipe-meta">Vegetarian • 2+ Hours • Feeds 6</div>
+                        <div class="recipe-stats">
+                            <span class="difficulty">★★★ Advanced</span>
+                            <button class="cook-now-btn">Cook Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="recipe-card">
+                    <div class="recipe-image">
+		      <img src="../assets/images/Biscuit Pudding.jpg" alt="Recipe-2" style="width: 100%; height: auto;">
+                        <span class="rating-badge">★ 4.9</span>
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Chocolate Biscuit Pudding</h3>
+                        <div class="recipe-meta">Baking • 50 mins • Feeds 4</div>
+                        <div class="recipe-stats">
+                            <span class="difficulty">★★☆ Medium</span>
+                            <button class="cook-now-btn">Cook Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="recipe-card">
+                    <div class="recipe-image">
+		      <img src="../assets/images/Lemon mojito.jpg" alt="Recipe-3" style="width: 100%; height: auto;">
+                        <span class="rating-badge">★ 4.7</span>
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Lemon Mojito</h3>
+                        <div class="recipe-meta">Cocktail • 15 mins • Feeds 1</div>
+                        <div class="recipe-stats">
+                            <span class="difficulty">★☆☆ Easy</span>
+                            <button class="cook-now-btn">Cook Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trending Now Section -->
+    <section class="section trending">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Trending Now</h2>
+            </div>
+            <div class="trending-grid">
+                <div class="trending-item">
+		<img src="../assets/images/Healthy Breakfasts.jpg" alt="Trending-1" style="width: 100%; height: auto;">
+                    <br><h3>Healthy Breakfasts</h3>
+                    <div class="trending-stats">12 active cooks <br>  40 recipes</div>
+                </div>
+                <div class="trending-item">
+		<img src="../assets/images/15 Minute Dinners.jpg" alt="Trending-2" style="width: 100%; height: auto;">
+                    <br><h3>15 Minute Dinners</h3>
+                    <div class="trending-stats">35 active cooks <br>  20 recipes</div>
+                </div>
+                <div class="trending-item">
+		<img src="../assets/images/Holiday Desserts.avif" alt="Trending-3" style="width: 100%; height: auto;">
+                    <br><h3>Holiday Desserts</h3>
+                    <div class="trending-stats">40 active cooks <br>  38 recipes</div>
+                </div>
+                <div class="trending-item">
+		<img src="../assets/images/Vegan Options.webp" alt="Trending-4" style="width: 100%; height: auto;">
+                    <br><h3>Vegan Options</h3>
+                    <div class="trending-stats">15 active cooks <br>  20 recipes</div>
+                </div>
+                <div class="trending-item">
+		<img src="../assets/images/Kids Favorites.webp" alt="Trending-5" style="width: 100%; height: auto;">
+                    <br><h3>Kids Favorites</h3>
+                    <div class="trending-stats">20 active cooks <br>  50 recipes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Spotlight Section -->
+    <section class="section community" id="community">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Community Spotlight</h2>
+            </div>
+            <div class="community-grid">
+                <div class="community-post">
+                    <div class="post-header">
+                        <div class="avatar">KA</div>
+                        <div>
+                            <div class="post-author">Kelum Ashen</div>
+                            <div class="post-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-image"><img src="../assets/images/Pasta-post.jpg" alt="Post-1" style="width: 100%; height: auto;"></div>
+                    <h3 class="post-title">My Ultimate Pasta Recipe</h3>
+                    <p class="post-description">After 2 years of perfecting this recipe, I finally nailed it! Really helps to have the technique guidance from our AI cooking...</p>
+                    <div class="post-stats">
+                        <span>❤️ 47 likes • 12 shares</span>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="community-post">
+                    <div class="post-header">
+                        <div class="avatar">MP</div>
+                        <div>
+                            <div class="post-author">Malithi Perera</div>
+                            <div class="post-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-image"><img src="../assets/images/Mango Chutney-post.jpg" alt="Post-1" style="width: 100%; height: auto;"></div>
+                    <h3 class="post-title">Mango Chutney for Beginners</h3>
+                    <p class="post-description">Can't tell you how awesome it's been these connect with new cooks from around the country and our beginner guide for making mango chutney...</p>
+                    <div class="post-stats">
+                        <span>❤️ 32 likes • 8 shares</span>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Welcome Back!</h2>
+            <form>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Join Recipe Room</h2>
+            <form>
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Cooking Experience</label>
+                    <select id="experience">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="professional">Professional</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')">Log in</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Create Kitchen Modal -->
+    <div id="createKitchenModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('createKitchenModal')">&times;</span>
+            <h2>Start Your Live Kitchen</h2>
+            <form>
+                <div class="form-group">
+                    <label for="kitchenName">Kitchen Name</label>
+                    <input type="text" id="kitchenName" placeholder="e.g., Sunday Brunch Special" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipeCategory">Recipe Category</label>
+                    <select id="recipeCategory" required>
+                        <option value="">Choose a category</option>
+                        <option value="quick-meals">Quick Meals & Snacks</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="drinks">Drinks & Beverages</option>
+                        <option value="sri-lankan">Sri Lankan Dishes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="maxParticipants">Maximum Participants</label>
+                    <select id="maxParticipants">
+                        <option value="2">2 people</option>
+                        <option value="4" selected>4 people</option>
+                        <option value="6">6 people</option>
+                        <option value="8">8 people</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kitchenDescription">Description</label>
+                    <input type="text" id="kitchenDescription" placeholder="Tell others what you'll be cooking...">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;" onclick="createKitchen()">Start Live Kitchen</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- AI Chat Interface -->
+    <div class="ai-chat" id="aiChat">
+        <div class="chat-header">
+            <h3>🤖 AI Chef Assistant</h3>
+            <button onclick="toggleAIChat()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                <strong>AI Chef:</strong> Hello! I'm your cooking assistant. Ask me about recipes, cooking techniques, ingredient substitutions, or any culinary questions!
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Ask me anything about cooking..." onkeypress="handleChatInput(event)">
+        </div>
+    </div>
+
+    <button class="chat-toggle" onclick="toggleAIChat()">🤖</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        // Global variables
+        let socket;
+        let currentKitchen = null;
+        let currentUser = null;
+
+        // Initialize Socket.IO connection
+        function initializeSocket() {
+            // In a real application, this would connect to your server
+            // socket = io('http://localhost:3000');
+            console.log('Socket.IO would be initialized here');
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function switchModal(currentModal, targetModal) {
+            closeModal(currentModal);
+            openModal(targetModal);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Smooth scrolling function
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Create Kitchen function
+        function createKitchen() {
+            const kitchenName = document.getElementById('kitchenName').value;
+            const recipeCategory = document.getElementById('recipeCategory').value;
+            const maxParticipants = document.getElementById('maxParticipants').value;
+            const description = document.getElementById('kitchenDescription').value;
+
+            if (!kitchenName || !recipeCategory) {
+                alert('Please fill in all required fields');
+                return false;
+            }
+
+            // In a real application, this would create a room via Socket.IO
+            const roomCode = generateRoomCode();
+            
+            alert(`Kitchen "${kitchenName}" created successfully!\nRoom Code: ${roomCode}\nShare this code with friends to join your cooking session.`);
+            
+            closeModal('createKitchenModal');
+            
+            // Redirect to kitchen interface (would be implemented)
+            console.log('Redirecting to kitchen interface...');
+            
+            return false;
+        }
+
+        // Generate random room code
+        function generateRoomCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        // AI Chat functionality
+        function toggleAIChat() {
+            const chat = document.getElementById('aiChat');
+            const toggle = document.querySelector('.chat-toggle');
+            
+            if (chat.style.display === 'flex') {
+                chat.style.display = 'none';
+                toggle.style.display = 'flex';
+            } else {
+                chat.style.display = 'flex';
+                toggle.style.display = 'none';
+            }
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addChatMessage('user', message);
+            input.value = '';
+
+            // Simulate AI response (in real app, this would call Google AI Studio API)
+            setTimeout(() => {
+                const response = generateAIResponse(message);
+                addChatMessage('ai', response);
+            }, 1000);
+        }
+
+        function addChatMessage(type, message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = `<strong>You:</strong> ${message}`;
+            } else {
+                messageDiv.innerHTML = `<strong>AI Chef:</strong> ${message}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Simple AI response generator (in real app, this would use Google AI Studio)
+        function generateAIResponse(userMessage) {
+            const responses = {
+                'hello': 'Hello! I\'m here to help you with all your cooking questions. What would you like to cook today?',
+                'recipe': 'I\'d be happy to help you with a recipe! What type of dish are you interested in making?',
+                'cooking time': 'Cooking times vary depending on the dish and method. Could you be more specific about what you\'re cooking?',
+                'temperature': 'Different foods require different cooking temperatures. What are you planning to cook?',
+                'substitute': 'I can help you find ingredient substitutions! What ingredient do you need to replace?',
+                'technique': 'I love helping with cooking techniques! What specific technique would you like to learn about?',
+                'sri lankan': 'Sri Lankan cuisine is amazing! Are you interested in curry recipes, rice dishes, or perhaps some traditional sweets?',
+                'dessert': 'Desserts are my specialty! Are you looking for something quick and easy, or a more elaborate creation?',
+                'drink': 'Great choice! Are you interested in hot beverages, cold drinks, smoothies, or perhaps traditional Sri Lankan drinks?'
+            };
+
+            const lowerMessage = userMessage.toLowerCase();
+            
+            for (const keyword in responses) {
+                if (lowerMessage.includes(keyword)) {
+                    return responses[keyword];
+                }
+            }
+
+            return 'That\'s a great question! While I\'d love to give you a detailed answer, I\'m a demo AI. In the full application, I would provide comprehensive cooking guidance using Google AI Studio. For now, try asking about recipes, cooking techniques, or ingredient substitutions!';
+        }
+
+        // Kitchen Card Click Handlers
+        function joinKitchen(kitchenName) {
+            if (!currentUser) {
+                openModal('loginModal');
+                return;
+            }
+            
+            alert(`Joining ${kitchenName}! In the full application, this would connect you to the live cooking session.`);
+        }
+
+        // Recipe Card Click Handlers
+        function cookRecipe(recipeName) {
+            if (!currentUser) {
+                openModal('loginModal');
+                return;
+            }
+            
+            alert(`Starting ${recipeName}! This would open the cooking interface with step-by-step instructions and optional live session creation.`);
+        }
+
+        // Add click handlers to kitchen and recipe cards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kitchen card click handlers
+            const kitchenCards = document.querySelectorAll('.kitchen-card');
+            kitchenCards.forEach((card, index) => {
+                card.addEventListener('click', function() {
+                    const kitchenNames = ['Sushi Night', 'Homemade Pasta', 'Decadent Desserts'];
+                    joinKitchen(kitchenNames[index]);
+                });
+            });
+
+            // Recipe card click handlers
+            const recipeCards = document.querySelectorAll('.recipe-card');
+            recipeCards.forEach((card, index) => {
+                const cookButton = card.querySelector('.cook-now-btn');
+                if (cookButton) {
+                    cookButton.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const recipeNames = ['Thai Green Curry', 'Street-Style Tacos', 'Sourdough Masterclass'];
+                        cookRecipe(recipeNames[index]);
+                    });
+                }
+            });
+
+            // Form submit handlers
+            const loginForm = document.querySelector('#loginModal form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleLogin();
+                });
+            }
+
+            const signupForm = document.querySelector('#signupModal form');
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleSignup();
+                });
+            }
+
+            const createKitchenForm = document.querySelector('#createKitchenModal form');
+            if (createKitchenForm) {
+                createKitchenForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    createKitchen();
+                });
+            }
+        });
+
+        // Login handler
+        function handleLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate login (in real app, this would authenticate with backend)
+            currentUser = {
+                email: email,
+                name: email.split('@')[0],
+                experience: 'intermediate'
+            };
+            
+            closeModal('loginModal');
+            
+            // Update UI to show logged in state
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.textContent = `Hello, ${currentUser.name}!`;
+            loginBtn.onclick = function() { logout(); };
+            
+            alert('Login successful! You can now join cooking sessions and create your own kitchen.');
+        }
+
+        // Signup handler
+        function handleSignup() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const experience = document.getElementById('experience').value;
+            
+            if (!fullName || !email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Simulate signup (in real app, this would create account in backend)
+            currentUser = {
+                name: fullName,
+                email: email,
+                experience: experience
+            };
+            
+            closeModal('signupModal');
+            
+            // Update UI to show logged in state
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.textContent = `Hello, ${currentUser.name}!`;
+            loginBtn.onclick = function() { logout(); };
+            
+            alert('Account created successfully! Welcome to Recipe Room!');
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            const loginBtn = document.querySelector('.login-btn');
+            loginBtn.textContent = 'Log In';
+            loginBtn.onclick = function() { openModal('loginModal'); };
+            alert('You have been logged out.');
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSocket();
+            
+            // Add some sample interactions
+            console.log('Recipe Room initialized successfully!');
+            console.log('Features available:');
+            console.log('- Real-time cooking rooms with Socket.io');
+            console.log('- AI cooking assistant');
+            console.log('- Community recipe sharing');
+            console.log('- Live cooking sessions');
+        });
+
+        // Real-time features demo
+        function simulateRealtimeUpdates() {
+            // This would handle real Socket.IO events
+            console.log('Real-time updates would be handled here:');
+            console.log('- New participants joining kitchens');
+            console.log('- Live chat messages');
+            console.log('- Cooking progress updates');
+            console.log('- AI assistant responses');
+        }
+
+        // Advanced features for full implementation
+        const advancedFeatures = {
+            // Video streaming for live cooking sessions
+            initializeVideoStream: function() {
+                console.log('Video streaming would be initialized with WebRTC');
+            },
+            
+            // Recipe synchronization across participants
+            syncRecipeProgress: function(step, roomCode) {
+                console.log(`Syncing step ${step} for room ${roomCode}`);
+            },
+            
+            // Real-time cooking timers
+            startCookingTimer: function(duration, description) {
+                console.log(`Starting timer: ${duration} minutes for ${description}`);
+            },
+            
+            // AI-powered recipe recommendations
+            getAIRecipeRecommendations: function(ingredients) {
+                console.log('Getting AI recommendations for:', ingredients);
+            },
+            
+            // Collaborative shopping lists
+            updateShoppingList: function(ingredient, roomCode) {
+                console.log(`Adding ${ingredient} to shopping list for room ${roomCode}`);
+            }
+        };
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Ctrl/Cmd + K to open AI chat
+            if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+                event.preventDefault();
+                toggleAIChat();
+            }
+            
+            // Escape to close modals
+            if (event.key === 'Escape') {
+                const openModal = document.querySelector('.modal[style*="block"]');
+                if (openModal) {
+                    openModal.style.display = 'none';
+                }
+            }
+        });
+
+        // Animation and interaction enhancements
+        function addInteractionEnhancements() {
+            // Hover effects for cards
+            const cards = document.querySelectorAll('.kitchen-card, .recipe-card, .community-post');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        }
+
+        // Initialize enhancements when page loads
+        document.addEventListener('DOMContentLoaded', addInteractionEnhancements);
+    </script>
+</body>
+</html>

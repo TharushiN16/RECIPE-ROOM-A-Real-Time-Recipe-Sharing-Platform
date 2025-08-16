@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .login-btn, .signup-btn {
+            background: white;
+            color: #ff6b35;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .login-btn:hover, .signup-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #ff6b35;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #ff6b35;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .member-role {
+            color: #ff6b35;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .member-bio {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .timeline {
+            margin: 3rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .timeline-date {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 120px;
+            text-align: center;
+            margin-right: 2rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .timeline-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .timeline-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timeline-date {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo">
+                <span>Recipe Room</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html">AI Assistant</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <h1>About Recipe Room</h1>
+		<h2>RECIPE ROOM: A Real-Time Recipe Sharing Platform<h2><br>
+                <p>Connecting food lovers worldwide through real-time cooking experiences, AI-powered assistance, and a vibrant community of culinary enthusiasts.</p>
+            </section>
+
+            <!-- Mission Section -->
+            <section class="content-section">
+                <h2 class="section-title">Our Mission</h2>
+                <div class="section-content">
+                    <p>Recipe Room is an innovative real-time cooking platform that connects people through shared culinary experiences. The platform allows users to create virtual cooking 			rooms where multiple participants can cook the same recipe simultaneously, share progress, communicate in realtime, and receive intelligent AI cooking 					assistance.</p>
+                    <br>
+                    <p>The main idea behind Recipe Room is to transform cooking from a solitary activity into a social, interactive experience. Users can join cooking sessions with 				friends, family, or cooking enthusiasts from around the world, making cooking more engaging, educational, and fun.</p>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="content-section">
+                <h2 class="section-title">What Makes Us Special</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎥</div>
+                        <div class="feature-title">Live Cooking Sessions</div>
+                        <div class="feature-description">Join real-time cooking sessions with chefs and fellow food enthusiasts from around the world. Cook together, learn together, and share the joy of creating delicious meals.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-title">AI Chef Assistant</div>
+                        <div class="feature-description">Get personalized cooking guidance, recipe suggestions, and technique tips from our intelligent AI assistant that learns your preferences and skill level.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🇱🇰</div>
+                        <div class="feature-title">Local Community</div>
+                        <div class="feature-description">Connect with food lovers from different cultures, share recipes, and discover culinary traditions from around the country in our vibrant community.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-title">Seamless Experience</div>
+                        <div class="feature-description">Enjoy cooking with intuitive interfaces, synchronized recipes, real-time chat, and features designed to make virtual cooking feel natural and engaging.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏝️</div>
+                        <div class="feature-title">Local Flavors</div>
+                        <div class="feature-description">Celebrate Sri Lankan cuisine alongside international dishes. Learn authentic local recipes from experienced home cooks and professional chefs.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <div class="feature-title">Skill Development</div>
+                        <div class="feature-description">Track your cooking progress, earn achievements, and develop your culinary skills through structured learning paths and community challenges.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="content-section">
+                <h2 class="section-title">Our Growing Community</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label">Active Cooks</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">5,000+</span>
+                        <span class="stat-label">Recipes Shared</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">1,200+</span>
+                        <span class="stat-label">Live Sessions Daily</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">User Satisfaction</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Story Section -->
+            <section class="content-section">
+                <h2 class="section-title">Our Story</h2>
+                <div class="section-content">
+                     <p>Current cooking and recipe sharing methods face several critical limitations that hinder 
+			effective culinary learning and social connection:</p>
+			<p>1. Cooking Isolation: Many people cook alone and lack immediate guidance when facing 
+			cooking challenges or questions 
+			<br>2. Static Recipe Resources: Traditional recipe websites provide no real-time support or 
+			interactive assistance during cooking 
+			<br>3. Limited Social Cooking Opportunities: Difficulty coordinating cooking activities 
+			with friends and family, especially when geographically separated 
+			<br>4. Lack of Immediate Expert Help: No instant access to cooking advice, ingredient 
+			substitutions, or troubleshooting assistance 
+			<br>5. Poor Learning Experience: Limited opportunities to learn from others' cooking 
+			experiences and share knowledge in real-time.</p>
+                    <br>
+                    <p>So in August, 2025 I Founded and  Developed a real-time cooking platform with AI integration that facilitates collaborative cooking 
+			experiences and provides intelligent culinary assistance.</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">T1 AUG 2025</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">The Beginning</div>
+                            <div class="timeline-description">Recipe Room was founded with the vision of connecting people through cooking, starting with a small team of passionate food lovers.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">T2 AUG 2025</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">AI Integration</div>
+                            <div class="timeline-description">Launched our AI Chef Assistant, revolutionizing how users get cooking guidance and personalized recipe recommendations.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">T3 AUG 2025</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Local Expansion</div>
+                            <div class="timeline-description">Expanded locally, welcoming cooks from all over the country to our growing community.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">T4 AUG, 2025</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Community Milestones</div>
+                            <div class="timeline-description">Reached 100+ active users and launched advanced community features including cooking challenges and skill-based matching.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team Section -->
+            <section class="content-section">
+                <h2 class="section-title">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-avatar">TN</div>
+                        <div class="member-name">L.M.Tharushi Nawanjana</div>
+                        <div class="member-role">Founder & Developer</div>
+                        <div class="member-bio">Passionate about bringing people together through food and technology. With a background in software engineering and web developing and a love for cooking I, Tharushi Nawanjana leads our mission to revolutionize virtual cooking experiences.</div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">AI</div>
+                        <div class="member-name">AI Chef Assistant</div>
+                        <div class="member-role">Head of Culinary Intelligence</div>
+                        <div class="member-bio">Our AI-powered cooking companion that provides personalized guidance, recipe suggestions, and cooking tips. Always learning and evolving to better serve our community of food lovers.</div>
+                    </div>
+                   </div>
+            </section>
+
+            <!-- Values Section -->
+            <section class="content-section">
+                <h2 class="section-title">Our Values</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">💝</div>
+                        <div class="feature-title">Inclusivity</div>
+                        <div class="feature-description">We welcome cooks of all backgrounds, skill levels, and dietary preferences. Everyone has something valuable to contribute to our community.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-title">Innovation</div>
+                        <div class="feature-description">We continuously push the boundaries of what's possible in virtual cooking experiences, always looking for better ways to connect and learn.</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <div class="feature-title">Community</div>
+                        <div class="feature-description">At the heart of everything we do is our commitment to building meaningful connections between food lovers countrywide.</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+</body>
+</html>

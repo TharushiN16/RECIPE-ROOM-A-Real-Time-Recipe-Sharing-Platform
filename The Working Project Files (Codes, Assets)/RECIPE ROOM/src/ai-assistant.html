@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - Recipe Room</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+	    min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #ff6b35;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 40px; 
+            margin-right: 10px; 
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            opacity: 1;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            min-height: calc(100vh - 80px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            height: calc(100vh - 120px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .ai-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .ai-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ai-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-status {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #28a745;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+            min-width: 20px;
+        }
+
+        .quick-actions {
+            margin-top: 2rem;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .quick-action {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .quick-action:hover {
+            background: #fff5f2;
+            border-color: #ff6b35;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #ff6b35, #ff8c42);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .chat-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-header-info h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .chat-header-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(100vh - 320px);
+        }
+
+        .message {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message-content {
+            display: inline-block;
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .message.ai .message-content {
+            background: #f8f9fa;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-content {
+            background: #ff6b35;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+
+        .message.user .message-time {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            max-width: 80px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        .chat-input-container {
+            padding: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            outline: none;
+            resize: none;
+            max-height: 120px;
+            min-height: 50px;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: #ff6b35;
+        }
+
+        .send-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #e55a2b;
+            transform: scale(1.1);
+        }
+
+        .send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Recipe Suggestions */
+        .recipe-suggestion {
+            background: #fff5f2;
+            border: 1px solid #ffcab0;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .recipe-suggestion h4 {
+            color: #ff6b35;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .suggestion-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .suggestion-btn {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .suggestion-btn:hover {
+            background: #e55a2b;
+        }
+
+        .suggestion-btn.secondary {
+            background: transparent;
+            color: #ff6b35;
+            border: 1px solid #ff6b35;
+        }
+
+        .suggestion-btn.secondary:hover {
+            background: #ff6b35;
+            color: white;
+        }
+
+	
+        /* Footer */
+        .footer {
+            background: #333;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                height: auto;
+            }
+
+            .sidebar {
+                order: 2;
+                max-height: 300px;
+            }
+
+            .chat-container {
+                order: 1;
+                height: 600px;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .chat-messages {
+                max-height: 400px;
+            }
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            background: linear-gradient(135deg, #e8f5ff, #f0f8ff);
+            border: 1px solid #b3d9ff;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-message h3 {
+            color: #ff6b35;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .welcome-message p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: #ff6b35;
+            transform: translateY(-2px);
+        }
+
+        .feature-card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+	 <div class="logo">
+	       <a href="index.html" class="logo">
+                	<img src="../assets/images/Recipe Room Logo.png" alt="Recipe Room logo" a href="index.html">                
+	       </a>
+		<h4>Recipe Room</h4>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="browse.html">Browse</a></li>
+                <li><a href="live-kitchens.html">Live Kitchens</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="ai-assistant.html" class="active">AI Assistant</a></li>
+            </ul>
+          </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="ai-avatar">🤖</div>
+                <div class="ai-info">
+                    <h2 class="ai-name">AI Chef Assistant</h2>
+                    <div class="ai-status">
+                        <div class="status-indicator">
+                            <div class="status-dot"></div>
+                            Online & Ready to Help
+                        </div>
+                    </div>
+                </div>
+
+                <h3>What I Can Do</h3>
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <span class="feature-icon">🍳</span>
+                        Recipe recommendations
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🔄</span>
+                        Ingredient substitutions
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">⏰</span>
+                        Cooking timing guidance
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🌡️</span>
+                        Temperature advice
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🥘</span>
+                        Technique tutorials
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🛒</span>
+                        Shopping lists
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">🍽️</span>
+                        Meal planning
+                    </li>
+                    <li class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        Quick troubleshooting
+                    </li>
+                </ul>
+
+                <div class="quick-actions">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-action" onclick="sendQuickMessage('What can I cook with chicken, rice, and vegetables?')">
+                        🍗 Recipe from ingredients
+                    </div>
+                    <div class="quick-action" onclick="sendQuickMessage('How do I make perfect pasta?')">
+                        🍝 Cooking techniques
+                    </div>
+                    <div class="quick-action" onclick="sendQuickMessage('Substitute for eggs in baking?')">
+                        🥚 Ingredient substitutes
+                    </div>
+                    <div class="quick-action" onclick="sendQuickMessage('Plan a healthy meal for dinner')">
+                        🥗 Meal planning
+                    </div>
+                    <div class="quick-action" onclick="sendQuickMessage('Convert 2 cups to metric')">
+                        📏 Unit conversions
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat Interface -->
+            <section class="chat-container">
+                <header class="chat-header">
+                    <div class="chat-header-avatar">🤖</div>
+                    <div class="chat-header-info">
+                        <h2>AI Chef Assistant</h2>
+                        <p>Powered by Google AI Studio • Ask me anything about cooking!</p>
+                    </div>
+                </header>
+
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Welcome Message -->
+                    <div class="welcome-message">
+                        <h3>👋 Welcome to your AI Cooking Assistant!</h3>
+                        <p>I'm here to help you with recipes, cooking techniques, ingredient substitutions, and more. What would you like to cook today?</p>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card" onclick="sendQuickMessage('Show me quick dinner ideas')">
+                                <div class="feature-card-icon">🍽️</div>
+                                <div class="feature-card-title">Quick Dinners</div>
+                            </div>
+                            <div class="feature-card" onclick="sendQuickMessage('Healthy breakfast recipes')">
+                                <div class="feature-card-icon">🥞</div>
+                                <div class="feature-card-title">Breakfast Ideas</div>
+                            </div>
+                            <div class="feature-card" onclick="sendQuickMessage('Easy dessert recipes')">
+                                <div class="feature-card-icon">🍰</div>
+                                <div class="feature-card-title">Desserts</div>
+                            </div>
+                            <div class="feature-card" onclick="sendQuickMessage('Sri Lankan traditional recipes')">
+                                <div class="feature-card-icon">🍛</div>
+                                <div class="feature-card-title">Sri Lankan</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Initial AI Message -->
+                    <div class="message ai">
+                        <div class="message-content">
+                            <p>Hi there! I'm your AI cooking assistant, powered by Google AI Studio. I'm here to help you with:</p>
+                            <ul style="margin: 1rem 0; padding-left: 1rem;">
+                                <li>Finding recipes based on your ingredients</li>
+                                <li>Cooking techniques and tips</li>
+                                <li>Ingredient substitutions</li>
+                                <li>Meal planning and nutrition advice</li>
+                                <li>Kitchen troubleshooting</li>
+                            </ul>
+                            <p>What would you like to cook today? Just ask me anything!</p>
+                        </div>
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="Ask me about recipes, cooking techniques, ingredients..."
+                            onkeypress="handleKeyPress(event)"
+                            oninput="adjustTextareaHeight(this)"
+                        ></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                            ➤
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+	<!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="about us.html">About</a>
+                <a href="privacy policy.html">Privacy Policy</a>
+                <a href="terms of service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help</a>
+            </div>
+            <p>&copy; 2025 Recipe Room. <br>All rights reserved. <br>Made by L.M.Tharushi Nawanjana</p>
+        </div>
+    </footer>
+
+    <script>
+        let isTyping = false;
+        let messageCount = 0;
+
+        // Predefined responses for demo (in real app, this would use Google AI Studio API)
+        const aiResponses = {
+            'chicken rice vegetables': {
+                text: "Perfect! With chicken, rice, and vegetables, I can suggest several delicious recipes:",
+                suggestions: [
+                    {
+                        title: "🍛 Chicken Fried Rice",
+                        description: "Classic stir-fried rice with chicken and mixed vegetables",
+                        time: "20 mins",
+                        difficulty: "Easy"
+                    },
+                    {
+                        title: "🥘 One-Pot Chicken & Veggie Rice",
+                        description: "Everything cooks together for minimal cleanup",
+                        time: "35 mins", 
+                        difficulty: "Easy"
+                    },
+                    {
+                        title: "🍜 Chicken Vegetable Risotto",
+                        description: "Creamy rice dish with tender chicken and fresh vegetables",
+                        time: "30 mins",
+                        difficulty: "Medium"
+                    }
+                ]
+            },
+            'perfect pasta': {
+                text: "Here's how to make perfect pasta every time:",
+                tips: [
+                    "Use plenty of salted water - at least 4-6 cups per 100g pasta",
+                    "Bring water to a rolling boil before adding pasta",
+                    "Stir frequently during the first 2-3 minutes to prevent sticking",
+                    "Cook until 'al dente' - firm to the bite, usually 1-2 minutes less than package directions",
+                    "Reserve some pasta water before draining - it's great for sauce",
+                    "Never rinse pasta unless making a cold salad"
+                ]
+            },
+            'eggs baking': {
+                text: "Great question! Here are the best egg substitutes for baking:",
+                substitutions: [
+                    "1 egg = 1/4 cup applesauce (for moisture)",
+                    "1 egg = 1/4 cup mashed banana (adds sweetness)", 
+                    "1 egg = 1 tbsp ground flaxseed + 3 tbsp water (let sit 5 mins)",
+                    "1 egg = 1/4 cup silken tofu, blended",
+                    "1 egg = 3 tbsp aquafaba (chickpea liquid)",
+                    "For binding: 1 egg = 1 tbsp cornstarch + 3 tbsp water"
+                ]
+            },
+            'healthy dinner': {
+                text: "I'd love to help you plan a healthy dinner! Here's a balanced meal idea:",
+                meal: {
+                    protein: "Grilled salmon or baked chicken breast",
+                    carbs: "Quinoa or brown rice",
+                    vegetables: "Roasted broccoli and bell peppers",
+                    healthy_fats: "Avocado slices and olive oil dressing"
+                },
+                tips: "Aim for half your plate to be vegetables, quarter protein, quarter whole grains!"
+            },
+            'metric conversion': {
+                text: "Here are some common US to metric conversions:",
+                conversions: [
+                    "2 cups = 480ml (about 500ml)",
+                    "1 cup = 240ml",
+                    "1/2 cup = 120ml", 
+                    "1/4 cup = 60ml",
+                    "1 tablespoon = 15ml",
+                    "1 teaspoon = 5ml"
+                ]
+            },
+            'default': [
+                "That's a great cooking question! While I'd love to give you a detailed answer, I'm currently in demo mode. In the full Recipe Room application, I would provide comprehensive cooking guidance using Google AI Studio's advanced capabilities.",
+                "I can help with recipes, techniques, substitutions, and meal planning! What specific aspect of cooking would you like to explore?",
+                "Interesting question! In the complete app, I'd analyze your ingredients, dietary preferences, and cooking skill level to give personalized recommendations.",
+                "Great question about cooking! The full AI assistant would provide step-by-step guidance, nutritional information, and even suggest ingredient substitutions based on what you have available."
+            ]
+        };
+
+        // Send message function
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+            
+            // Add user message
+            addMessage('user', message);
+            input.value = '';
+            adjustTextareaHeight(input);
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Generate AI response
+            setTimeout(() => {
+                hideTypingIndicator();
+                generateAIResponse(message);
+            }, 1000 + Math.random() * 2000);
+        }
+
+        // Quick message function
+        function sendQuickMessage(message) {
+            const input = document.getElementById('chatInput');
+            input.value = message;
+            sendMessage();
+        }
+
+        // Add message to chat
+        function addMessage(sender, content, isHtml = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${isHtml ? content : `<p>${content}</p>`}
+                </div>
+                <div class="message-time">${timeString}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            messageCount++;
+        }
+
+        // Generate AI response
+        function generateAIResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            let response = null;
+            
+            // Check for specific keywords
+            if (lowerMessage.includes('chicken') && lowerMessage.includes('rice') && lowerMessage.includes('vegetables')) {
+                response = aiResponses['chicken rice vegetables'];
+            } else if (lowerMessage.includes('pasta') && (lowerMessage.includes('perfect') || lowerMessage.includes('cook'))) {
+                response = aiResponses['perfect pasta'];
+            } else if (lowerMessage.includes('egg') && lowerMessage.includes('baking')) {
+                response = aiResponses['eggs baking'];
+            } else if (lowerMessage.includes('healthy') && lowerMessage.includes('dinner')) {
+                response = aiResponses['healthy dinner'];
+            } else if (lowerMessage.includes('convert') || lowerMessage.includes('metric')) {
+                response = aiResponses['metric conversion'];
+            }
+            
+            if (response) {
+                if (response.suggestions) {
+                    // Recipe suggestions response
+                    let html = `<p>${response.text}</p>`;
+                    response.suggestions.forEach(recipe => {
+                        html += `
+                            <div class="recipe-suggestion">
+                                <h4>${recipe.title}</h4>
+                                <p>${recipe.description}</p>
+                                <p><strong>Time:</strong> ${recipe.time} | <strong>Difficulty:</strong> ${recipe.difficulty}</p>
+                                <div class="suggestion-actions">
+                                    <button class="suggestion-btn" onclick="startCooking('${recipe.title}')">Start Cooking</button>
+                                    <button class="suggestion-btn secondary" onclick="saveRecipe('${recipe.title}')">Save Recipe</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    addMessage('ai', html, true);
+                } else if (response.tips) {
+                    // Tips response
+                    let html = `<p>${response.text}</p><ul>`;
+                    response.tips.forEach(tip => {
+                        html += `<li>${tip}</li>`;
+                    });
+                    html += `</ul>`;
+                    addMessage('ai', html, true);
+                } else if (response.substitutions) {
+                    // Substitutions response
+                    let html = `<p>${response.text}</p><ul>`;
+                    response.substitutions.forEach(sub => {
+                        html += `<li><strong>${sub}</strong></li>`;
+                    });
+                    html += `</ul>`;
+                    addMessage('ai', html, true);
+                } else if (response.meal) {
+                    // Meal planning response
+                    let html = `<p>${response.text}</p>`;
+                    html += `<div class="recipe-suggestion">`;
+                    html += `<h4>🍽️ Balanced Dinner Plan</h4>`;
+                    html += `<p><strong>Protein:</strong> ${response.meal.protein}</p>`;
+                    html += `<p><strong>Carbohydrates:</strong> ${response.meal.carbs}</p>`;
+                    html += `<p><strong>Vegetables:</strong> ${response.meal.vegetables}</p>`;
+                    html += `<p><strong>Healthy Fats:</strong> ${response.meal.healthy_fats}</p>`;
+                    html += `<p><em>${response.tips}</em></p>`;
+                    html += `<div class="suggestion-actions">`;
+                    html += `<button class="suggestion-btn" onclick="createMealPlan()">Create Full Meal Plan</button>`;
+                    html += `<button class="suggestion-btn secondary" onclick="getShoppingList()">Get Shopping List</button>`;
+                    html += `</div></div>`;
+                    addMessage('ai', html, true);
+                } else if (response.conversions) {
+                    // Conversion response
+                    let html = `<p>${response.text}</p><ul>`;
+                    response.conversions.forEach(conversion => {
+                        html += `<li><strong>${conversion}</strong></li>`;
+                    });
+                    html += `</ul>`;
+                    addMessage('ai', html, true);
+                }
+            } else {
+                // Default response
+                const defaultResponses = aiResponses['default'];
+                const randomResponse = defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+                addMessage('ai', randomResponse);
+            }
+        }
+
+        // Typing indicator
+        function showTypingIndicator() {
+            isTyping = true;
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            isTyping = false;
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Utility functions
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        // Recipe interaction functions
+        function startCooking(recipeName) {
+            addMessage('user', `Start cooking ${recipeName}`);
+            setTimeout(() => {
+                addMessage('ai', `Great choice! I'll guide you through cooking ${recipeName} step by step. In the full application, this would:\n\n• Open the detailed recipe interface\n• Start a live cooking session\n• Provide real-time guidance\n• Set up timers automatically\n• Connect you with other cooks making the same dish\n\nWould you like to see the ingredient list first?`);
+            }, 1000);
+        }
+
+        function saveRecipe(recipeName) {
+            addMessage('ai', `${recipeName} has been saved to your recipe collection! You can find it in your profile under "Saved Recipes".`);
+        }
+
+        function createMealPlan() {
+            addMessage('ai', `I'll create a full meal plan for you! In the complete application, this would:\n\n• Generate a weekly meal plan based on your preferences\n• Consider your dietary restrictions and goals\n• Balance nutrition across all meals\n• Create shopping lists automatically\n• Suggest meal prep tips\n\nWhat's your preferred cuisine style for this week?`);
+        }
+
+        function getShoppingList() {
+            addMessage('ai', `Here's your shopping list for the healthy dinner:\n\n**Proteins:**\n• 1 lb salmon fillet or chicken breast\n\n**Grains:**\n• 1 cup quinoa or brown rice\n\n**Vegetables:**\n• 1 head broccoli\n• 2 bell peppers (any color)\n\n**Other:**\n• 1 avocado\n• Olive oil\n• Salt & pepper\n\nWould you like me to add this to your Recipe Room shopping list?`);
+        }
+
+        // Advanced features simulation
+        function simulateAdvancedFeatures() {
+            // Voice input simulation
+            console.log('Voice input would be available in full app');
+            
+            // Image recognition simulation
+            console.log('Image recognition for ingredients would be available');
+            
+            // Nutrition analysis simulation
+            console.log('Detailed nutrition analysis would be provided');
+        }
+
+        // Initialize the chat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on input
+            document.getElementById('chatInput').focus();
+            
+            // Initialize advanced features
+            simulateAdvancedFeatures();
+            
+            // Add welcome interaction
+            setTimeout(() => {
+                if (messageCount === 0) {
+                    addMessage('ai', "👋 I notice you haven't asked anything yet! Try clicking one of the quick actions on the left, or ask me something like:\n\n• \"What can I make with tomatoes and cheese?\"\n• \"How do I cook perfect rice?\"\n• \"Give me a healthy lunch idea\"\n\nI'm here to help!");
+                }
+            }, 30000); // After 30 seconds if no interaction
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                switch(event.key) {
+                    case '/':
+                        event.preventDefault();
+                        document.getElementById('chatInput').focus();
+                        break;
+                    case 'k':
+                        event.preventDefault();
+                        document.getElementById('chatInput').focus();
+                        break;
+                }
+            }
+        });
+
+        // Feature demonstrations
+        const demoFeatures = {
+            voiceInput: function() {
+                addMessage('ai', '🎤 Voice input feature would be available in the full app! You could speak your cooking questions and I\'d respond with voice guidance.');
+            },
+            
+            imageAnalysis: function() {
+                addMessage('ai', '📸 Image analysis feature would let you:\n\n• Take photos of ingredients to get recipe suggestions\n• Analyze your fridge contents\n• Identify unknown ingredients\n• Get plating and presentation tips\n\nJust upload a photo and I\'ll help!');
+            },
+            
+            nutritionAnalysis: function() {
+                addMessage('ai', '📊 Nutrition analysis would provide:\n\n• Detailed calorie and macro breakdowns\n• Dietary restriction compatibility\n• Nutritional scoring of recipes\n• Personalized health recommendations\n• Meal timing suggestions\n\nBased on your health goals and preferences!');
+            }
+        };
+
+        console.log('AI Assistant initialized!');
+        console.log('Available features in full application:');
+        console.log('- Google AI Studio integration for advanced responses');
+        console.log('- Voice input and output');
+        console.log('- Image recognition for ingredients');
+        console.log('- Personalized recipe recommendations');
+        console.log('- Real-time cooking guidance');
+        console.log('- Nutrition analysis and meal planning');
+        console.log('- Multi-language support');
+        console.log('- Integration with live cooking sessions');
+    </script>
+</body>
+</html>
